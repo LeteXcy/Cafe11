@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devi Coffee Day | Cozy Ahmedabad Café</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        html, body {
+            scroll-behavior: smooth !important;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(26, 18, 11, 0.78), rgba(26, 18, 11, 0.88)), url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=1600') center/cover no-repeat;
+        }
+        .feathered-header {
+            -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .layered-card {
+            box-shadow: 0 4px 6px -1px rgba(92, 64, 51, 0.03), 0 2px 4px -1px rgba(92, 64, 51, 0.02), 0 20px 25px -5px rgba(92, 64, 51, 0.05);
+        }
+        .layered-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(92, 64, 51, 0.05), 0 4px 6px -2px rgba(92, 64, 51, 0.03), 0 30px 40px -15px rgba(92, 64, 51, 0.12);
+        }
+
+        /* 3D Flipbook CSS Styles */
+        .book-container {
+            perspective: 1500px;
+            transition: all 0.5s ease;
+        }
+        .book {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+        .page {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 1;
+            cursor: pointer;
+        }
+        .page-front, .page-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            background-color: #fff;
+            box-shadow: inset 3px 0 20px rgba(0,0,0,0.1);
+        }
+        .page-back {
+            transform: rotateY(180deg);
+        }
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+        /* Page layout balancing levels */
+        .page:nth-child(1) { z-index: 10; }
+        .page:nth-child(2) { z-index: 9; }
+        .page:nth-child(3) { z-index: 8; }
+        .page:nth-child(4) { z-index: 7; }
+        .page:nth-child(5) { z-index: 6; }
+        
+        .page.flipped:nth-child(1) { z-index: 1; }
+        .page.flipped:nth-child(2) { z-index: 2; }
+        .page.flipped:nth-child(3) { z-index: 3; }
+        .page.flipped:nth-child(4) { z-index: 4; }
+        .page.flipped:nth-child(5) { z-index: 5; }
+    </style>
+</head>
+<body class="bg-[#F3F5F1] text-[#2B231E] overflow-x-hidden relative">
+
+    <div class="absolute top-[80vh] left-[-10%] w-[40%] h-[600px] bg-[#E2E7DF]/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-[180vh] right-[-5%] w-[35%] h-[500px] bg-[#C58940]/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+    <header class="sticky top-0 z-50 bg-[#F3F5F1]/50 backdrop-blur-xl feathered-header pb-6 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center justify-between relative">
+            <nav class="flex justify-center md:justify-start space-x-6 md:space-x-8 font-medium text-[#4A3B32]">
+                <a href="#home" class="scroll-link hover:text-[#C58940] transition-colors duration-300 text-sm md:text-base">Home</a>
+                <a href="#about" class="scroll-link hover:text-[#C58940] transition-colors duration-300 text-sm md:text-base">About</a>
+                <a href="#menu-section" class="scroll-link hover:text-[#C58940] transition-colors duration-300 text-sm md:text-base">Menu</a>
+                <a href="#services" class="scroll-link hover:text-[#C58940] transition-colors duration-300 text-sm md:text-base">Services</a>
+                <a href="#reviews" class="scroll-link hover:text-[#C58940] transition-colors duration-300 text-sm md:text-base">Reviews</a>
+            </nav>
+
+            <div class="text-center md:absolute md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2">
+                <a href="#home" class="scroll-link group">
+                    <span class="serif-title text-2xl md:text-3xl font-bold tracking-wide text-[#5C4033]">Devi Coffee Day</span>
+                </a>
+            </div>
+
+            <div class="flex justify-center md:justify-end items-center">
+                <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="bg-[#5C4033] hover:bg-[#C58940] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-[#C58940]/20">
+                    Visit Us
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero-bg min-h-[90vh] flex items-center justify-center text-center px-4 relative -mt-[88px]">
+        <div class="max-w-3xl text-white space-y-6 relative z-10 pt-20">
+            <div class="inline-flex items-center gap-2 bg-[#C58940]/10 border border-[#C58940]/30 rounded-full px-4 py-1.5 backdrop-blur-md">
+                <div class="flex text-amber-400 text-xs">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <span class="text-xs font-semibold tracking-wider uppercase text-[#EADFC9]">Rated 4.8 Stars</span>
+            </div>
+            <h1 class="serif-title text-5xl md:text-7xl font-bold text-[#FFFDF9] leading-tight tracking-tight">
+                Brewed with love,<br><span class="italic text-[#EADFC9] font-normal">served warm</span>
+            </h1>
+            <p class="text-lg md:text-xl font-light text-[#EADFC9]/80 max-w-2xl mx-auto">
+                Freshly brewed coffee and cozy vibes in Ahmedabad. Your ultimate space to unwind, connect, and savor perfection.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 pt-6">
+                <div class="relative group w-full sm:w-auto">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-[#C58940] to-[#EADFC9] rounded-full blur-md opacity-40 group-hover:opacity-70 transition duration-500"></div>
+                    <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="relative w-full sm:w-auto block text-center bg-[#C58940] hover:bg-[#B07530] text-white font-semibold px-8 py-4 rounded-full transition duration-300">Visit Now</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] transform rotate-180">
+            <svg class="relative block w-full h-[60px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" preserveAspectRatio="none">
+                <path d="M1200,0H0V120C281.85,21.3,570.75,2.4,1200,20Z" fill="#F3F5F1"></path>
+            </svg>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 max-w-7xl mx-auto relative reveal">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative group">
+                <div class="absolute inset-y-4 -left-4 -right-4 bg-[#E2E7DF] rounded-3xl transform -rotate-1 -z-10 group-hover:rotate-0 transition-transform duration-500"></div>
+                <div class="absolute inset-0 bg-[#5C4033]/10 rounded-3xl transform translate-x-4 translate-y-4 -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500 blur-sm"></div>
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800" alt="Cozy Cafe interior" class="rounded-3xl shadow-xl w-full object-cover h-[450px] border-4 border-white">
+            </div>
+            <div class="space-y-6 bg-white/70 backdrop-blur-md p-8 rounded-3xl border border-white/80 shadow-xl shadow-[#5C4033]/5">
+                <span class="text-[#C58940] font-bold text-xs uppercase tracking-widest block">Welcome to Devi Coffee Day</span>
+                <h2 class="serif-title text-4xl md:text-5xl font-bold text-[#5C4033]">Your Cozy Coffee Spot</h2>
+                <p class="text-[#6E5A4E] leading-relaxed text-lg font-light">At Devi Coffee Day, every cup tells a story of fresh beans, warm smiles, and a welcoming vibe. Whether you are catching up with friends, getting some work done, or looking for a relaxing date night, we provide the perfect cozy backdrop.</p>
+                <div class="pt-6 grid grid-cols-2 gap-6 border-t border-[#E2E7DF]">
+                    <div>
+                        <h4 class="font-bold text-2xl text-[#5C4033]">Premium</h4>
+                        <p class="text-sm text-[#6E5A4E]">Handpicked Beans</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-2xl text-[#5C4033]">Warm</h4>
+                        <p class="text-sm text-[#6E5A4E]">Ahmedabad Vibes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu-section" class="py-24 px-6 max-w-6xl mx-auto reveal">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="text-[#C58940] font-bold text-xs uppercase tracking-widest block mb-2">Our Culinary Story</span>
+            <h2 class="serif-title text-4xl font-bold text-[#5C4033] mb-4">Flip Through Our Menu</h2>
+            <p class="text-[#6E5A4E] font-light text-sm">Click on any page to flip it side-to-side smoothly.</p>
+        </div>
+
+        <div class="w-full flex justify-center items-center py-8">
+            <div class="book-container w-full max-w-[900px] h-[320px] sm:h-[450px] md:h-[580px] bg-[#E2E7DF]/30 p-4 rounded-[2rem] border border-[#E2E7DF]">
+                <div class="book w-full h-full relative" id="menuFlipbook">
+                    
+                    <div class="page" onclick="this.classList.toggle('flipped')">
+                        <div class="page-front relative border border-gray-200 shadow-md rounded-r-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Cover Page 1">
+                            <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white p-4 text-center">
+                                <h3 class="serif-title text-3xl md:text-5xl font-bold mb-2">The Menu</h3>
+                                <div class="w-12 h-0.5 bg-[#C58940] my-2"></div>
+                                <p class="text-xs uppercase tracking-widest text-[#EADFC9]">Devi Coffee Day</p>
+                            </div>
+                        </div>
+                        <div class="page-back border border-gray-200 shadow-md rounded-l-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517254456976-6af3a551f61c?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Page 2">
+                        </div>
+                    </div>
+
+                    <div class="page" onclick="this.classList.toggle('flipped')">
+                        <div class="page-front border border-gray-200 shadow-md rounded-r-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Page 3">
+                        </div>
+                        <div class="page-back border border-gray-200 shadow-md rounded-l-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Page 4">
+                        </div>
+                    </div>
+
+                    <div class="page" onclick="this.classList.toggle('flipped')">
+                        <div class="page-front border border-gray-200 shadow-md rounded-r-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Page 5">
+                        </div>
+                        <div class="page-back border border-gray-200 shadow-md rounded-l-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Page 6">
+                        </div>
+                    </div>
+
+                    <div class="page" onclick="this.classList.toggle('flipped')">
+                        <div class="page-front border border-gray-200 shadow-md rounded-r-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Page 7">
+                        </div>
+                        <div class="page-back border border-gray-200 shadow-md rounded-l-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Page 8">
+                        </div>
+                    </div>
+
+                    <div class="page" onclick="this.classList.toggle('flipped')">
+                        <div class="page-front border border-gray-200 shadow-md rounded-r-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Page 9">
+                        </div>
+                        <div class="page-back relative border border-gray-200 shadow-md rounded-l-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Menu Back Cover Page 10">
+                            <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white p-4 text-center">
+                                <h4 class="serif-title text-xl font-bold text-[#EADFC9] mb-1">Devi Coffee Day</h4>
+                                <p class="text-[11px] font-light max-w-xs opacity-80">Freshly brewed coffee and cozy vibes in Ahmedabad.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="bg-[#E2E7DF]/50 py-24 px-6 relative border-y border-[#E2E7DF]">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <span class="text-[#C58940] font-bold text-xs uppercase tracking-widest block mb-2">What We Offer</span>
+                <h2 class="serif-title text-4xl font-bold text-[#5C4033] mb-4">Our Services</h2>
+                <p class="text-[#6E5A4E] font-light">Fresh coffee, tasty snacks, cozy vibes await you here.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="reveal bg-white p-8 rounded-2xl border border-white layered-card flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-[#F3F5F1] text-[#C58940] flex items-center justify-center text-xl mb-6 group-hover:scale-110 group-hover:bg-[#C58940] group-hover:text-white transition-all duration-300 shadow-inner"><i class="fas fa-coffee"></i></div>
+                        <h3 class="font-bold text-xl mb-3 text-[#5C4033]">Fresh Coffee</h3>
+                        <p class="text-sm text-[#6E5A4E] leading-relaxed font-light">Enjoy our freshly brewed espresso, cappuccino, and cold coffee.</p>
+                    </div>
+                </div>
+                <div class="reveal bg-white p-8 rounded-2xl border border-white layered-card flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 group" style="transition-delay: 100ms;">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-[#F3F5F1] text-[#C58940] flex items-center justify-center text-xl mb-6 group-hover:scale-110 group-hover:bg-[#C58940] group-hover:text-white transition-all duration-300 shadow-inner"><i class="fas fa-cookie-bite"></i></div>
+                        <h3 class="font-bold text-xl mb-3 text-[#5C4033]">Delicious Snacks</h3>
+                        <p class="text-sm text-[#6E5A4E] leading-relaxed font-light">Savor our selection of fresh snacks and light bites made daily.</p>
+                    </div>
+                </div>
+                <div class="reveal bg-white p-8 rounded-2xl border border-white layered-card flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 group" style="transition-delay: 200ms;">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-[#F3F5F1] text-[#C58940] flex items-center justify-center text-xl mb-6 group-hover:scale-110 group-hover:bg-[#C58940] group-hover:text-white transition-all duration-300 shadow-inner"><i class="fas fa-blender"></i></div>
+                        <h3 class="font-bold text-xl mb-3 text-[#5C4033]">Beverages & Shakes</h3>
+                        <p class="text-sm text-[#6E5A4E] leading-relaxed font-light">Indulge in our refreshing range of handcrafted beverages and creamy shakes, made to satisfy every mood and craving.</p>
+                    </div>
+                </div>
+                <div class="reveal bg-white p-8 rounded-2xl border border-white layered-card flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 group" style="transition-delay: 300ms;">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-[#F3F5F1] text-[#C58940] flex items-center justify-center text-xl mb-6 group-hover:scale-110 group-hover:bg-[#C58940] group-hover:text-white transition-all duration-300 shadow-inner"><i class="fas fa-birthday-cake"></i></div>
+                        <h3 class="font-bold text-xl mb-3 text-[#5C4033]">Events & Parties</h3>
+                        <p class="text-sm text-[#6E5A4E] leading-relaxed font-light">We are one of best places for events & parties in Ahmedabad.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+            <span class="text-[#C58940] font-bold text-xs uppercase tracking-widest block mb-2">Guest Experiences</span>
+            <h2 class="serif-title text-4xl font-bold text-[#5C4033]">Loved By Our Customers</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div class="reveal bg-white p-8 rounded-2xl border border-[#E2E7DF] flex flex-col justify-between relative transition-all duration-500 hover:-translate-y-1 layered-card">
+                <i class="fas fa-quote-left absolute top-6 right-8 text-[#E2E7DF] text-4xl opacity-40"></i>
+                <div>
+                    <div class="flex text-amber-400 text-sm mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-[#4A3B32] italic leading-relaxed mb-6 font-light">"We ordered, Mexican hot pot and tandoori paneer sandwich it was too good especially the hotpot was worth a shot though nachos could have been a bit crispy but else I totally loved it and the ambience is also very quite and soothing would recommend this place for dates and everything ❤️"</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-[#E2E7DF]/60 flex items-center justify-center text-[#5C4033] font-bold shadow-sm">ML</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-[#5C4033]">Muskan Lalwani</h4>
+                        <span class="text-xs text-[#9C8A7E]">Google Review</span>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal bg-white p-8 rounded-2xl border border-[#E2E7DF] flex flex-col justify-between relative transition-all duration-500 hover:-translate-y-1 layered-card" style="transition-delay: 150ms;">
+                <i class="fas fa-quote-left absolute top-6 right-8 text-[#E2E7DF] text-4xl opacity-40"></i>
+                <div>
+                    <div class="flex text-amber-400 text-sm mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-[#4A3B32] italic leading-relaxed mb-6 font-light">"The cappuccino here is simply perfect—creamy, rich, and just the right warmth to brighten my mornings."</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-[#E2E7DF]/60 flex items-center justify-center text-[#5C4033] font-bold shadow-sm">SR</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-[#5C4033]">Shayna Rawal</h4>
+                        <span class="text-xs text-[#9C8A7E]">Customer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="px-4 md:px-8 pb-12">
+        <div class="bg-[#5C4033] text-white py-20 px-6 md:px-12 rounded-[2.5rem] md:rounded-[3.5rem] relative overflow-hidden layered-card max-w-7xl mx-auto">
+            <div class="absolute -bottom-10 -right-10 w-[300px] h-[300px] bg-[#C58940]/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="grid md:grid-cols-2 gap-16 items-center relative z-10">
+                <div class="space-y-6 reveal">
+                    <span class="text-[#C58940] font-bold text-xs uppercase tracking-widest block">Reach Out Anytime</span>
+                    <h2 class="serif-title text-4xl md:text-5xl font-bold text-[#FFFDF9]">Contact Us</h2>
+                    <p class="text-[#EADFC9]/80 max-w-md font-light">We’re here to help! Stop by for a freshly brewed drink or get in touch for events planning.</p>
+                    
+                    <div class="space-y-5 pt-4">
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-10 h-10 rounded-xl bg-white/10 group-hover:bg-[#C58940] flex items-center justify-center text-[#C58940] group-hover:text-white shrink-0 mt-1 transition-all duration-300"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <h4 class="font-semibold text-[#FFFDF9]">Address</h4>
+                                <p class="text-sm text-[#EADFC9]/80 mt-0.5 leading-relaxed font-light">Rivera Arcade, nr. Prahladnagar, 16 & 17, 100 Feet Rd, Satellite, Ahmedabad, Gujarat 380015</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-10 h-10 rounded-xl bg-white/10 group-hover:bg-[#C58940] flex items-center justify-center text-[#C58940] group-hover:text-white shrink-0 mt-1 transition-all duration-300"><i class="fas fa-phone-alt"></i></div>
+                            <div>
+                                <h4 class="font-semibold text-[#FFFDF9]">Phone</h4>
+                                <a href="tel:+919727726216" class="text-sm text-[#EADFC9]/80 hover:text-white mt-0.5 block font-light transition-colors">+91 97277 26216</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative reveal" style="transition-delay: 200ms;">
+                    <div class="absolute -inset-2 bg-gradient-to-tr from-[#C58940]/30 to-transparent rounded-3xl blur-xl opacity-40"></div>
+                    <div class="relative bg-white text-[#2B231E] p-8 md:p-10 rounded-3xl shadow-2xl space-y-6 border border-white">
+                        <div class="flex items-center gap-3 border-b border-[#E2E7DF] pb-4">
+                            <div class="w-10 h-10 rounded-xl bg-[#F3F5F1] text-[#C58940] flex items-center justify-center text-lg shadow-inner"><i class="far fa-clock"></i></div>
+                            <div>
+                                <h3 class="serif-title text-2xl font-bold text-[#5C4033]">Opening Hours</h3>
+                                <p class="text-xs text-[#6E5A4E]">Plan your cozy visit with us</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3.5">
+                            <div class="flex justify-between items-center text-sm border-b border-[#F3F5F1] pb-2">
+                                <span class="font-medium text-[#5C4033]">Monday – Friday</span>
+                                <span class="text-[#6E5A4E] font-semibold bg-[#F3F5F1] px-3 py-1 rounded-full text-xs">11:00 AM - 11:00 PM</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm border-b border-[#F3F5F1] pb-2">
+                                <span class="font-medium text-[#5C4033]">Saturday</span>
+                                <span class="text-[#6E5A4E] font-semibold bg-[#F3F5F1] px-3 py-1 rounded-full text-xs">11:00 AM - 12:00 AM</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm pb-1">
+                                <span class="font-medium text-[#5C4033]">Sunday</span>
+                                <span class="text-[#C58940] font-bold bg-[#F3F5F1] px-3 py-1 rounded-full text-xs">11:00 AM - 12:00 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-[#F3F5F1] border border-[#E2E7DF] p-4 rounded-xl text-center">
+                            <span class="text-xs text-[#5C4033] font-medium block"><i class="fas fa-mug-hot mr-1.5 text-[#C58940]"></i> Kitchen closes 30 mins before midnight</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 pt-8 border-t border-white/10 flex flex-col items-center justify-center space-y-4 relative z-10">
+                <span class="text-xs font-semibold tracking-widest uppercase text-[#EADFC9]/60">Connect With Us Online</span>
+                <div class="flex items-center gap-4">
+                    <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 border border-white/10 text-[#EADFC9] hover:text-white flex items-center justify-center text-lg transition-all duration-300 transform hover:scale-110 shadow-md">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 border border-white/10 text-[#EADFC9] hover:text-white flex items-center justify-center text-lg transition-all duration-300 transform hover:scale-110 shadow-md">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 border border-white/10 text-[#EADFC9] hover:text-white flex items-center justify-center text-lg transition-all duration-300 transform hover:scale-110 shadow-md">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+                <p class="text-center text-[11px] text-[#EADFC9]/40 mt-2">&copy; 2026 Devi Coffee Day. All rights reserved.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("DOMContentLoaded", reveal);
+
+        document.querySelectorAll('.scroll-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = 40;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
